@@ -1,2 +1,2 @@
-# TIC-TAC-TOE-game-in-c-
+# TIC-TAC-TOE-game-in-c++
 "THIS IS MY FIRST PROJECT"
