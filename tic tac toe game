@@ -1,142 +1,91 @@
 #include <iostream>
-
+#include <string>
 using namespace std;
-char square[9] = {'0','1','2','3','4','5','6','7','8'};
-int checkwin()
-{
-		if (square[0] == square [1]  && square[1] == square[2] )
-		{	if ( square [0] == 'X' )			
-			return 1;
-			else
-			return 2; 
-		}		
-		else
-		if (square[3] == square [4]  && square[4] == square[5] )
-			{	if ( square [3] == 'X' )			
-			return 1;
-			else
-			return 2; 
-		}
-		else
-		if (square[6] == square [7]  && square[7] == square[8] )
-			{	if ( square [6] == 'X' )			
-			return 1;
-			else
-			return 2; 
-		}
-		else
-		if (square[0] == square [3]  && square[3] == square[6] )
-			{	if ( square [0] == 'X' )			
-			return 1;
-			else
-			return 2; 
-		}
-		else
-		if (square[1] == square [4]  && square[4] == square[7] )
-			{	if ( square [1] == 'X' )			
-			return 1;
-			else
-			return 2; 
-		}
-	else
-		if (square[2] == square [5]  && square[5] == square[8] )
-			{	if ( square [2] == 'X' )			
-			return 1;
-			else
-			return 2; 
-		}
-else
-		if (square[0] == square [4]  && square[4] == square[8] )
-			{	if ( square [0] == 'X' )			
-			return 1;
-			else
-			return 2; 
-		}
-	else
-		if (square[2] == square [4]  && square[4] == square[6] )
-			{	if ( square [2] == 'X' )			
-			return 1;
-			else
-			return 2; 
-		}
-	else
-		if (square[0] == square [3]  && square[3] == square[6] )
-			{	if ( square [0] == 'X' )			
-			return 1;
-			else
-			return 2; 
-		}
-	else 
-		return 0;
-}
 
-void mark(int player, int box)
-{
-	if (player == 1 )
-	{
+int main() {
+cout<<"                                                TIC TAC TOE GAME         "<<endl;
+    char board[3][3] = {
+        {' ', ' ', ' '}, 
+        {' ', ' ', ' '}, 
+        {' ', ' ', ' '}
+    };
 
-		square[box] = 'X';
-	}
-	else
-		square[box] = 'Y';
-}
+    const char playerX = 'X';
+    const char playerO = 'O';
+    char currentPlayer = playerX;
+    int r = -1;
+    int c = -1;
+    char winner = ' ';
 
-void display()
-{
-		for(int i=0;i<9;i++)
-		{
-			cout<< square[i] << "\t" ;
-				if (i == 2 || i== 5 || i==8)
-					cout<<"\n"; 
-}
-}
-int main()
-{
-		int player1 = 1, player2 =2 ;
-		
-		int box, result = 0, flag = 0;
-		
-		for(int i=1;i<5;i++)
-	{
+    for (int i = 0; i < 9; i++) {
+        cout << "   |   |   " << endl;
+        cout << " " << board[0][0] << " | " << board[0][1] << " | " << board[0][2] << endl;
+        cout << "___|___|___" << endl;
+        cout << "   |   |   " << endl;
+        cout << " " << board[1][0] << " | " << board[1][1] << " | " << board[1][2] << endl;
+        cout << "___|___|___" << endl;
+        cout << "   |   |   " << endl;
+        cout << " " << board[2][0] << " | " << board[2][1] << " | " << board[2][2] << endl;
+        cout << "   |   |   " << endl;
 
-		cout<< "\n Player " << player1 << "Enter the Box";
-		cin>> box;
-		mark( player1, box);
-		display();
+        if (winner != ' ') {
+            break;
+        }
+        
+        cout << "Current Player is " << currentPlayer << endl;
+        while (true) {
+            cout << "Enter r c from 0-2 for row and column: ";
+            cin >> r >> c;
+            if (r < 0 || r > 2 || c < 0 || c > 2) {
+                cout << "Invalid input, try again." << endl;
+            }
+            else if (board[r][c] != ' ') {
+                cout << "Tile is full, try again." << endl;
+            }
+            else {
+                break;
+            }
 
-		result =checkwin();	
-		if (result == 1 )
-		{	cout<<"\n Congratualtions! player " << player1 << " has Won ";
-			flag = 1;			
-			break;
-		}
-		else
-		if (result == 2 )
-		{	cout<<"\n Congratualtions! player " << player2 << " has Won ";
-			flag = 1;			
-			break;
-		}
+            r = -1;
+            c = -1;
+            cin.clear();
+            cin.ignore(10000, '\n');
 
-		cout<< "\n Player " << player2 << "Enter the Box";
-		cin>> box;
-		mark ( player2, box);
-		display();
-		
-		result =checkwin();	
-		if (result == 1 )
-		{	cout<<"\n Congratualtions! player " << player1 << " has Won ";
-			flag = 1;
-			break;
-		}
-		else
-		if (result == 2 )
-		{	cout<<"\n Congratualtions! player " << player2 << " has Won ";
-			flag = 1;
-			break;
-		}
-}
-		if (flag == 0 )
-		cout<<" \n Sorry, The game is a draw ";
-	
-	return 0;
+
+        }
+
+        board[r][c] = currentPlayer;
+        currentPlayer = (currentPlayer == playerX) ? playerO : playerX;
+
+
+        for (int r = 0; r < 3; r++) {
+            if (board[r][0] != ' ' && board[r][0] == board[r][1] && board[r][1] == board[r][2]) {
+                winner = board[r][0];
+                break;
+            }
+        }
+
+
+        for (int c = 0; c < 3; c++) {
+            if (board[0][c] != ' ' && board[0][c] == board[1][c] && board[1][c] == board[2][c]) {
+                winner = board[0][c];
+                break;
+            }
+        }
+
+
+        if (board[0][0] != ' ' && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+            winner = board[0][0];
+        }
+        else if (board[0][2] != ' ' && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+            winner = board[0][2];
+        }
+    }
+
+    if (winner != ' ') {
+        cout << "Player" << winner << " is the winner!" << endl;
+    }
+    else {
+        cout << "Tie!" << endl;
+    }
 }
